@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart - ShopVite</title>
+  </head>
+  <body class="bg-white text-gray-900 antialiased">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+      import { createNavbar } from '/src/components/layout/navbar.js'
+      import { createFooter } from '/src/components/layout/footer.js'
+      import { createCartItem } from '/src/components/cart/cart-item.js'
+      import { createCartSummary } from '/src/components/cart/cart-summary.js'
+      import { getCart } from '/src/store/cartStore.js'
+
+      const app = document.getElementById('app')
+      const cart = getCart()
+
+      const main = document.createElement('main')
+      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'
+
+      main.innerHTML = `
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div id="cart-items" class="lg:col-span-2"></div>
+          <div id="cart-summary"></div>
+        </div>
+      `
+
+      const itemsContainer = main.querySelector('#cart-items')
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = `
+          <div class="text-center py-16">
+            <p class="text-gray-400 text-lg mb-4">Your cart is empty</p>
+            <a href="/src/pages/shop/" class="inline-flex px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors">
+              Continue Shopping
+            </a>
+          </div>
+        `
+      } else {
+        cart.forEach(item => itemsContainer.appendChild(createCartItem(item)))
+      }
+
+      main.querySelector('#cart-summary').appendChild(createCartSummary())
+      app.append(createNavbar(), main, createFooter())
+    </script>
+  </body>
+</html>

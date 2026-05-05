@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop - ShopVite</title>
+    <meta name="description" content="Browse our complete collection of products." />
+  </head>
+  <body class="bg-white text-gray-900 antialiased">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+      import { createNavbar } from '/src/components/layout/navbar.js'
+      import { createFooter } from '/src/components/layout/footer.js'
+      import { createProductGrid } from '/src/components/product/product-grid.js'
+      import { products } from '/src/data/products.js'
+
+      const app = document.getElementById('app')
+
+      // Page content
+      const main = document.createElement('main')
+      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'
+      main.innerHTML = `
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-gray-900">All Products</h1>
+          <p class="mt-2 text-gray-500">Showing ${products.length} products</p>
+        </div>
+      `
+      main.appendChild(createProductGrid(products, 4))
+
+      app.append(createNavbar(), main, createFooter())
+    </script>
+  </body>
+</html>

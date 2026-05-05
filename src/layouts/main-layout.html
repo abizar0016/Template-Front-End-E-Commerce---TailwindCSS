@@ -1,0 +1,33 @@
+<!-- Main Layout Template
+     Used as reference for pages with navbar + footer -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopVite</title>
+  </head>
+  <body class="bg-white text-gray-900 antialiased">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+      import { createNavbar } from '/src/components/layout/navbar.js'
+      import { createFooter } from '/src/components/layout/footer.js'
+
+      const app = document.getElementById('app')
+
+      // Navbar
+      app.appendChild(createNavbar())
+
+      // Main content area - replace with page content
+      const main = document.createElement('main')
+      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'
+      main.innerHTML = '<p class="text-gray-500">Page content goes here</p>'
+      app.appendChild(main)
+
+      // Footer
+      app.appendChild(createFooter())
+    </script>
+  </body>
+</html>
