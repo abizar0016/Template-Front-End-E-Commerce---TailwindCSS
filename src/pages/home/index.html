@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - ShopVite</title>
+    <title>Home - VENORA</title>
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
@@ -17,6 +17,7 @@
       import { createCategories } from '/src/sections/categories.js'
       import { createFeaturedProducts } from '/src/sections/featured-products.js'
       import { createPromoBanner } from '/src/sections/promo-banner.js'
+      import { createTestimonials } from '/src/sections/testimonials.js'
       import { createNewsletter } from '/src/sections/newsletter.js'
 
       const app = document.getElementById('app')
@@ -27,6 +28,7 @@
         createCategories(),
         createFeaturedProducts(),
         createPromoBanner(),
+        createTestimonials(),
         createNewsletter(),
         createFooter()
       )

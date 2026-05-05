@@ -1,7 +1,21 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  body {
+  html {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-gray-800 antialiased transition-colors duration-300;
+  }
+
+  @variant dark {
+    body {
+      @apply bg-gray-950 text-gray-200;
+    }
   }
 }

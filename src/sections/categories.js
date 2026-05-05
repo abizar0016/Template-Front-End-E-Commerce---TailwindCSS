@@ -1,25 +1,45 @@
 import { categories } from '../data/categories.js'
 
+const categoryImages = {
+  'Furniture': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop',
+  'Electronics': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
+  'Lighting': 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400&h=300&fit=crop',
+  'Decor': 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=400&h=300&fit=crop',
+  'Accessories': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop',
+  'Kitchen': 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
+}
+
+const categoryColors = ['bg-violet-500', 'bg-blue-500', 'bg-pink-500', 'bg-amber-500', 'bg-emerald-500', 'bg-rose-500']
+
 /**
- * Create the categories section
+ * Create the VENORA categories section with large images
  * @returns {HTMLElement}
  */
 export function createCategories() {
   const section = document.createElement('section')
-  section.className = 'py-16 bg-gray-50'
+  section.id = 'categories'
+  section.className = 'py-16 bg-white dark:bg-gray-950 transition-colors duration-300'
 
   section.innerHTML = `
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Shop by Category</h2>
-        <p class="mt-2 text-gray-500">Find what you're looking for</p>
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Shop by Category</h2>
+        <p class="mt-2 text-gray-500 dark:text-gray-400">Browse our top categories and find what you need</p>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        ${categories.map(cat => `
-          <a href="/src/pages/shop/?category=${cat.slug}" class="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-200">
-            <span class="text-3xl group-hover:scale-110 transition-transform duration-200">${cat.icon}</span>
-            <span class="text-sm font-medium text-gray-700 group-hover:text-indigo-600 transition-colors">${cat.name}</span>
-            <span class="text-xs text-gray-400">${cat.count} products</span>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+        ${categories.slice(0, 5).map((cat, i) => `
+          <a href="/src/pages/shop/?category=${cat.slug}" class="group relative rounded-2xl overflow-hidden aspect-[4/5] cursor-pointer">
+            <img src="${categoryImages[cat.name] || 'https://placehold.co/400x500/f5f3ff/7c3aed?text=' + cat.name}"
+              alt="${cat.name}"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 text-center">
+              <span class="inline-flex items-center justify-center w-10 h-10 rounded-full ${categoryColors[i]} text-white text-lg font-bold mb-2 shadow-lg">
+                ${cat.name[0]}
+              </span>
+              <p class="text-white font-semibold text-sm">${cat.name}</p>
+              <p class="text-white/70 text-xs">${cat.count}+ Products</p>
+            </div>
           </a>
         `).join('')}
       </div>

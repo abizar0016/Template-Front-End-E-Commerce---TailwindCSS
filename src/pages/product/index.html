@@ -4,53 +4,167 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Detail - ShopVite</title>
+    <title>Product Detail - VENORA</title>
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
       import { createNavbar } from '/src/components/layout/navbar.js'
       import { createFooter } from '/src/components/layout/footer.js'
-      import { createProductGallery } from '/src/components/product/product-gallery.js'
       import { products } from '/src/data/products.js'
       import { formatCurrency } from '/src/utils/formatCurrency.js'
       import { addToCart } from '/src/store/cartStore.js'
 
       const app = document.getElementById('app')
-      const product = products[0] // Demo: show first product
+      const params = new URLSearchParams(window.location.search)
+      const productId = parseInt(params.get('id')) || 1
+      const product = products.find(p => p.id === productId) || products[0]
+
+      const discount = product.originalPrice
+        ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+        : null
 
       const main = document.createElement('main')
-      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'
+      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'
 
       main.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div id="gallery"></div>
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-8">
+          <a href="/" class="hover:text-violet-600 transition-colors">Home</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="/src/pages/shop/" class="hover:text-violet-600 transition-colors">Shop</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-900 dark:text-white font-medium">${product.name}</span>
+        </nav>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+          <!-- Gallery -->
+          <div class="space-y-4">
+            <div class="aspect-square bg-gray-50 dark:bg-gray-800 rounded-2xl flex items-center justify-center p-8 overflow-hidden">
+              <img id="main-image" src="${product.image}" alt="${product.name}"
+                class="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
+                onerror="this.src='https://placehold.co/500x500/f5f3ff/7c3aed?text=${encodeURIComponent(product.name)}'" />
+            </div>
+            <div class="flex gap-3">
+              <button class="w-20 h-20 rounded-xl bg-gray-50 dark:bg-gray-800 border-2 border-violet-500 p-2 cursor-pointer">
+                <img src="${product.image}" alt="" class="w-full h-full object-contain"
+                  onerror="this.src='https://placehold.co/80x80/f5f3ff/7c3aed?text=1'" />
+              </button>
+              <button class="w-20 h-20 rounded-xl bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-violet-300 p-2 cursor-pointer">
+                <img src="${product.image}" alt="" class="w-full h-full object-contain opacity-60"
+                  onerror="this.src='https://placehold.co/80x80/f5f3ff/7c3aed?text=2'" />
+              </button>
+              <button class="w-20 h-20 rounded-xl bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-violet-300 p-2 cursor-pointer">
+                <img src="${product.image}" alt="" class="w-full h-full object-contain opacity-60"
+                  onerror="this.src='https://placehold.co/80x80/f5f3ff/7c3aed?text=3'" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Details -->
           <div>
-            <p class="text-sm text-indigo-600 font-medium uppercase tracking-wider mb-2">${product.category}</p>
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">${product.name}</h1>
-            <div class="flex items-center gap-2 mb-4">
-              <span class="text-yellow-400">★</span>
-              <span class="text-sm text-gray-600">${product.rating} (${product.reviews} reviews)</span>
-            </div>
-            <div class="flex items-baseline gap-3 mb-6">
-              <span class="text-3xl font-bold text-gray-900">${formatCurrency(product.price)}</span>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">${product.name}</h1>
+
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="text-3xl font-bold text-gray-900 dark:text-white">${formatCurrency(product.price)}</span>
               ${product.originalPrice ? `<span class="text-lg text-gray-400 line-through">${formatCurrency(product.originalPrice)}</span>` : ''}
+              ${discount ? `<span class="text-sm font-bold text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full">-${discount}%</span>` : ''}
             </div>
-            <p class="text-gray-600 leading-relaxed mb-8">${product.description}</p>
-            <button id="add-to-cart-btn" class="w-full md:w-auto px-8 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors cursor-pointer">
-              Add to Cart
-            </button>
+
+            <div class="flex items-center gap-2 mb-6">
+              <div class="flex text-yellow-400">
+                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+              </div>
+              <span class="text-sm text-gray-500 dark:text-gray-400">(${product.reviews} reviews)</span>
+            </div>
+
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-8">${product.description}</p>
+
+            <!-- Color -->
+            <div class="mb-6">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Color:</p>
+              <div class="flex gap-2.5">
+                ${(product.colors || []).map((c, i) => `
+                  <button class="w-9 h-9 rounded-full cursor-pointer transition-all ${i === 0 ? 'ring-2 ring-violet-500 ring-offset-2 dark:ring-offset-gray-950' : 'ring-2 ring-transparent hover:ring-gray-300'}" style="background-color: ${c}"></button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="mb-8">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Quantity:</p>
+              <div class="inline-flex items-center border border-gray-200 dark:border-gray-700 rounded-xl">
+                <button id="qty-dec" class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-violet-600 transition-colors cursor-pointer">−</button>
+                <span id="qty-value" class="w-10 text-center font-semibold text-gray-900 dark:text-white">1</span>
+                <button id="qty-inc" class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-violet-600 transition-colors cursor-pointer">+</button>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-3 mb-8">
+              <button id="add-to-cart" class="flex-1 py-3.5 border-2 border-violet-600 text-violet-600 dark:text-violet-400 dark:border-violet-400 font-semibold rounded-full hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors cursor-pointer">
+                Add to Cart
+              </button>
+              <button id="buy-now" class="flex-1 py-3.5 bg-violet-600 text-white font-semibold rounded-full hover:bg-violet-700 transition-colors cursor-pointer shadow-lg shadow-violet-600/25">
+                Buy Now
+              </button>
+            </div>
+
+            <!-- Trust -->
+            <div class="flex gap-6 pt-6 border-t border-gray-100 dark:border-gray-800">
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+                <div>
+                  <p class="font-medium text-gray-700 dark:text-gray-300">Free Shipping</p>
+                  <p class="text-xs">On orders over $100</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <div>
+                  <p class="font-medium text-gray-700 dark:text-gray-300">30 Days Return</p>
+                  <p class="text-xs">Easy returns</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `
 
-      // Insert gallery
-      const galleryContainer = main.querySelector('#gallery')
-      galleryContainer.appendChild(createProductGallery([product.image]))
+      // Quantity logic
+      let qty = 1
+      main.querySelector('#qty-dec')?.addEventListener('click', () => {
+        if (qty > 1) { qty--; main.querySelector('#qty-value').textContent = qty }
+      })
+      main.querySelector('#qty-inc')?.addEventListener('click', () => {
+        qty++; main.querySelector('#qty-value').textContent = qty
+      })
 
       // Add to cart
-      main.querySelector('#add-to-cart-btn').addEventListener('click', () => addToCart(product))
+      main.querySelector('#add-to-cart')?.addEventListener('click', () => {
+        addToCart(product, qty)
+        const btn = main.querySelector('#add-to-cart')
+        btn.textContent = '✓ Added!'
+        setTimeout(() => btn.textContent = 'Add to Cart', 2000)
+      })
+
+      main.querySelector('#buy-now')?.addEventListener('click', () => {
+        addToCart(product, qty)
+        window.location.href = '/src/pages/cart/'
+      })
+
+      // Color selector
+      main.querySelectorAll('[style*="background-color"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          main.querySelectorAll('[style*="background-color"]').forEach(b => {
+            b.classList.remove('ring-violet-500')
+            b.classList.add('ring-transparent')
+          })
+          btn.classList.remove('ring-transparent')
+          btn.classList.add('ring-violet-500')
+        })
+      })
 
       app.append(createNavbar(), main, createFooter())
     </script>
