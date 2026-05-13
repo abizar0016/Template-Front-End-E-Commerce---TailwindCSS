@@ -27,28 +27,34 @@ export function createCartItem(item) {
     </div>
     <div class="hidden sm:block text-sm font-medium text-gray-600 dark:text-gray-300 w-20 text-center">${formatCurrency(item.price)}</div>
     <div class="flex items-center gap-1.5">
-      <button class="qty-btn w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors cursor-pointer text-sm" data-action="decrease">−</button>
+      <button type="button" class="qty-btn w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors cursor-pointer" data-action="decrease" aria-label="Decrease quantity">
+        <i class="fa-solid fa-minus text-xs"></i>
+      </button>
       <span class="w-8 text-center text-sm font-semibold text-gray-900 dark:text-white">${item.qty}</span>
-      <button class="qty-btn w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors cursor-pointer text-sm" data-action="increase">+</button>
+      <button type="button" class="qty-btn w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors cursor-pointer" data-action="increase" aria-label="Increase quantity">
+        <i class="fa-solid fa-plus text-xs"></i>
+      </button>
     </div>
     <p class="font-bold text-gray-900 dark:text-white w-24 text-right text-sm sm:text-base">${formatCurrency(item.price * item.qty)}</p>
-    <button class="remove-btn p-1.5 text-gray-300 dark:text-gray-600 hover:text-red-500 transition-colors cursor-pointer" aria-label="Remove">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-      </svg>
+    <button type="button" class="remove-btn p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 transition-colors cursor-pointer shrink-0" aria-label="Remove from cart">
+      <i class="fa-solid fa-trash-can text-lg"></i>
     </button>
   `
 
   row.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const newQty = btn.dataset.action === 'increase' ? item.qty + 1 : item.qty - 1
-      if (newQty < 1) { removeFromCart(item.id); row.remove() }
-      else { updateQty(item.id, newQty); location.reload() }
+      if (btn.dataset.action === 'increase') {
+        updateQty(item.id, item.qty + 1)
+      } else if (item.qty <= 1) {
+        removeFromCart(item.id)
+      } else {
+        updateQty(item.id, item.qty - 1)
+      }
     })
   })
 
   row.querySelector('.remove-btn')?.addEventListener('click', () => {
-    removeFromCart(item.id); row.remove(); location.reload()
+    removeFromCart(item.id)
   })
 
   return row

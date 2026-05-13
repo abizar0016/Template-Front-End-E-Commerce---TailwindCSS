@@ -1,28 +1,20 @@
-<!-- Auth Layout Template
-     Used as reference for login/register pages (no navbar/footer) -->
+<!-- Reference: auth-only shell (no navbar). Same pattern as login/register pages. -->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShopVite - Auth</title>
+    <title>VENORA - Auth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
-  <body class="bg-gray-50 text-gray-900 antialiased">
+  <body class="bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
-      const app = document.getElementById('app')
-      app.innerHTML = `
-        <div class="min-h-screen flex items-center justify-center px-4">
-          <div class="w-full max-w-md">
-            <div class="text-center mb-8">
-              <a href="/" class="text-2xl font-bold text-indigo-600">ShopVite</a>
-            </div>
-            <!-- Auth form goes here -->
-          </div>
-        </div>
-      `
+      import { createLoginPage } from '/src/components/auth/login-page.js'
+
+      document.getElementById('app').appendChild(createLoginPage())
     </script>
   </body>
 </html>

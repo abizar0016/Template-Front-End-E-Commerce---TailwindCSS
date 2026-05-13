@@ -5,33 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - VENORA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
-      import { createNavbar } from '/src/components/layout/navbar.js'
-      import { createFooter } from '/src/components/layout/footer.js'
-      import { createHero } from '/src/sections/hero.js'
-      import { createTrustBadge } from '/src/sections/trust-badge.js'
-      import { createCategories } from '/src/sections/categories.js'
-      import { createFeaturedProducts } from '/src/sections/featured-products.js'
-      import { createPromoBanner } from '/src/sections/promo-banner.js'
-      import { createTestimonials } from '/src/sections/testimonials.js'
-      import { createNewsletter } from '/src/sections/newsletter.js'
+      import { createHomeContent } from '/src/sections/home-content.js'
 
-      const app = document.getElementById('app')
-      app.append(
-        createNavbar(),
-        createHero(),
-        createTrustBadge(),
-        createCategories(),
-        createFeaturedProducts(),
-        createPromoBanner(),
-        createTestimonials(),
-        createNewsletter(),
-        createFooter()
-      )
+      document.getElementById('app').appendChild(createHomeContent())
     </script>
   </body>
 </html>

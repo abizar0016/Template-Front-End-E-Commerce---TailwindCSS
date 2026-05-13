@@ -1,14 +1,14 @@
-<!-- Main Layout Template
-     Used as reference for pages with navbar + footer -->
+<!-- Reference: storefront shell (navbar + main + footer). Use createHomeContent() or page-specific modules. -->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShopVite</title>
+    <title>VENORA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
-  <body class="bg-white text-gray-900 antialiased">
+  <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
@@ -16,18 +16,10 @@
       import { createFooter } from '/src/components/layout/footer.js'
 
       const app = document.getElementById('app')
-
-      // Navbar
-      app.appendChild(createNavbar())
-
-      // Main content area - replace with page content
       const main = document.createElement('main')
       main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'
-      main.innerHTML = '<p class="text-gray-500">Page content goes here</p>'
-      app.appendChild(main)
-
-      // Footer
-      app.appendChild(createFooter())
+      main.innerHTML = '<p class="text-gray-500 dark:text-gray-400">Replace this main with a page module (e.g. createAboutMain, mountShopPage).</p>'
+      app.append(createNavbar(), main, createFooter())
     </script>
   </body>
 </html>

@@ -19,3 +19,15 @@
     }
   }
 }
+
+/* Active nav link underline */
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -19px;
+  height: 2px;
+  background-color: #7c3aed;
+  border-radius: 1px;
+}

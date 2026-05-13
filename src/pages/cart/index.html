@@ -5,45 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cart - VENORA</title>
+    <meta name="description" content="Review your cart and complete demo checkout." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module">
-      import { createNavbar } from '/src/components/layout/navbar.js'
-      import { createFooter } from '/src/components/layout/footer.js'
-      import { createCartItem } from '/src/components/cart/cart-item.js'
-      import { createCartSummary } from '/src/components/cart/cart-summary.js'
-      import { getCart } from '/src/store/cartStore.js'
+      import { mountCartPage } from '/src/pages/cart/cart-page.js'
 
-      const app = document.getElementById('app')
-      const cart = getCart()
-
-      const main = document.createElement('main')
-      main.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'
-
-      const itemsHtml = cart.length === 0
-        ? `<div class="text-center py-20">
-            <p class="text-gray-400 text-lg mb-4">Your cart is empty</p>
-            <a href="/src/pages/shop/" class="inline-flex px-8 py-3 bg-violet-600 text-white font-semibold rounded-full hover:bg-violet-700 transition-colors">Continue Shopping</a>
-          </div>`
-        : ''
-
-      main.innerHTML = `
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">Your Cart (${cart.length})</h1>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          <div id="cart-items" class="lg:col-span-2">${itemsHtml}</div>
-          <div id="cart-summary"></div>
-        </div>
-      `
-
-      if (cart.length > 0) {
-        const container = main.querySelector('#cart-items')
-        cart.forEach(item => container.appendChild(createCartItem(item)))
-      }
-
-      main.querySelector('#cart-summary').appendChild(createCartSummary())
-      app.append(createNavbar(), main, createFooter())
+      mountCartPage(document.getElementById('app'))
     </script>
   </body>
 </html>

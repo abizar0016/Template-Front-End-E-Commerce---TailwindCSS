@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Detail - VENORA</title>
+    <title>Favorites - VENORA</title>
+    <meta name="description" content="Your saved products and demo checkout." />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body class="bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
@@ -13,15 +14,10 @@
     <script type="module">
       import { createNavbar } from '/src/components/layout/navbar.js'
       import { createFooter } from '/src/components/layout/footer.js'
-      import { createProductDetailMain } from '/src/pages/product/product-detail-page.js'
-      import { products } from '/src/data/products.js'
-
-      const params = new URLSearchParams(window.location.search)
-      const productId = parseInt(params.get('id'), 10) || 1
-      const product = products.find(p => p.id === productId) || products[0]
+      import { createWishlistMain } from '/src/pages/wishlist/wishlist-page.js'
 
       const app = document.getElementById('app')
-      app.append(createNavbar(), createProductDetailMain(product), createFooter())
+      app.append(createNavbar(), createWishlistMain(), createFooter())
     </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 /**
- * Create the VENORA customer testimonials section
+ * Create the VENORA customer testimonials section matching reference
  * @returns {HTMLElement}
  */
 export function createTestimonials() {
@@ -11,22 +11,19 @@ export function createTestimonials() {
       text: '"Amazing quality and fast shipping! The product exceeded my expectations. Highly recommended!"',
       name: 'Sarah Johnson',
       role: 'Verified Buyer',
-      avatar: 'SJ',
-      color: 'bg-violet-500',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face',
     },
     {
       text: '"Great customer service and beautiful products. Will definitely shop here again. Love it!"',
       name: 'Michael Chen',
       role: 'Verified Buyer',
-      avatar: 'MC',
-      color: 'bg-blue-500',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
     },
     {
       text: '"Everything was perfect from ordering to delivery. The quality is outstanding!"',
       name: 'Emily Davis',
       role: 'Verified Buyer',
-      avatar: 'ED',
-      color: 'bg-pink-500',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
     },
   ]
 
@@ -40,12 +37,20 @@ export function createTestimonials() {
         ${testimonials.map(t => `
           <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
             <!-- Stars -->
-            <div class="flex text-yellow-400 text-sm mb-4">★★★★★</div>
+            <div class="flex text-yellow-400 text-sm mb-4 gap-0.5">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
             <!-- Quote -->
             <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">${t.text}</p>
             <!-- Author -->
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 ${t.color} rounded-full flex items-center justify-center text-white text-sm font-bold">${t.avatar}</div>
+              <img src="${t.avatar}" alt="${t.name}" class="w-10 h-10 rounded-full object-cover ring-2 ring-violet-100 dark:ring-violet-900/50"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="w-10 h-10 bg-violet-500 rounded-full items-center justify-center text-white text-sm font-bold hidden">${t.name.split(' ').map(n => n[0]).join('')}</div>
               <div>
                 <p class="font-semibold text-gray-900 dark:text-white text-sm">${t.name}</p>
                 <p class="text-xs text-gray-400 dark:text-gray-500">${t.role}</p>
@@ -56,9 +61,9 @@ export function createTestimonials() {
       </div>
       <!-- Dots -->
       <div class="flex justify-center gap-2 mt-8">
-        <button class="w-8 h-2 rounded-full bg-violet-600 cursor-pointer"></button>
-        <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></button>
-        <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer"></button>
+        <button class="w-8 h-2 rounded-full bg-violet-600 cursor-pointer transition-all duration-300"></button>
+        <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer transition-all duration-300"></button>
+        <button class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer transition-all duration-300"></button>
       </div>
     </div>
   `
